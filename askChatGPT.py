@@ -31,8 +31,8 @@ chat_model = ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"])
 
 # TODO: Template 작성
 template = ""
-human_template = "articles:{articles},\n" \
-                  "{question_keyword}"
+human_template = "articles: {articles},\n" \
+                  "question: {question_keyword}"
 
 chat_prompt = ChatPromptTemplate.from_messages([
     ("system", template),
