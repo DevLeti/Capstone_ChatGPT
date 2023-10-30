@@ -95,8 +95,8 @@ def getArticleDetailBulk(URLs):
     article_details = []
     for URL in URLs:
         article_details.append(getArticleDetail(URL))
-        print("wait 1 second...")
-        time.sleep(1)
+        # print("wait 1 second...")
+        # time.sleep(1)
     return article_details
 
 
