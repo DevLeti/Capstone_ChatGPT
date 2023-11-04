@@ -3,6 +3,7 @@ import os
 from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import ChatPromptTemplate
+from langchain.prompts import PromptTemplate
 import getArticle
 
 dotenv_file = dotenv.find_dotenv()
@@ -14,15 +15,30 @@ dotenv.load_dotenv(dotenv_file)
 '''
 user_keyword = input()
 
+my_template = """아래의 질문을 몇가지 키워드로 요약해줘.
+질문: {question}"""
+
+prompt = PromptTemplate.from_template(my_template)
+prompt.format(question="아이유 몇살이야?")
+
+api_key = os.environ["OPENAI_API_CD"]
+chat_model = ChatOpenAI(openai_api_key=api_key)
+keyword = chat_model.predict(prompt.format(question=user_keyword))
+print(keyword)
+
 # getArticles
 search_result = getArticle.searchArticle(user_keyword)
 article_links = getArticle.getOnlyNaverLinks(search_result)
 article_list = getArticle.getArticleDetailBulk(article_links)
 article_string = ""
-for article in article_list:
-    article_string += article
-    article_string += ", "
-article_string = article_string[:-1]
+# for article in article_list:
+#     article_string += article
+#     article_string += ", "
+for i in range (0,len(article_list)):
+    article_string += f"\n{i+1}번째 기사:"
+    article_string += article_list[i].strip('\n')
+    article_string += "\n"
+print(article_string)
 
 print("GET ARTICLE COMPLETE")
 
