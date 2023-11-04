@@ -1,4 +1,6 @@
-import json
+from typing import Annotated
+
+from fastapi import FastAPI, Form
 
 import dotenv
 import os
@@ -43,9 +45,24 @@ chat_prompt = ChatPromptTemplate.from_messages([
 
 chain = chat_prompt | chat_model
 
-if __name__ == "__main__":
-    user_keyword = searchArticleByUserKeyword(input())
+# user_keyword = searchArticleByUserKeyword(input())
+# article_string = getArticle.getArticleDetailBulkWithStr(user_keyword)
+# result = chain.invoke({"articles":article_string[0:3500],"question_keyword":user_keyword})
+# print(result.content)
+
+
+
+app = FastAPI()
+
+
+@app.post("/search/")
+async def search(request: Annotated[str, Form()]):
+    user_keyword = searchArticleByUserKeyword(request)
     article_string = getArticle.getArticleDetailBulkWithStr(user_keyword)
-    result = chain.invoke({"articles":article_string[0:3500],"question_keyword":user_keyword})
-    print(result.content)
-    # print(type(result.content)) #'str'
+    result = chain.invoke({"articles": article_string[0:3500], "question_keyword": user_keyword})
+    return {"result": result.content}
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app)

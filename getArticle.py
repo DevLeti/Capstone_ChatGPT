@@ -69,22 +69,27 @@ def getArticleDetail(URL):
     # sid, 100:정치, 101:경제, 102: 사회, 103:생활/문화, 104:세계, 105:IT/과학, 106: 예능
     # '106: 예능'의 경우 연예 페이지로 파싱을 다르게 해야함
     # URL = "https://n.news.naver.com/mnews/article/003/0012106374?sid=106"
-    URLparts = urlparse(URL)
-    query_list = parse_qs(URLparts.query)
-    article_type = query_list["sid"][0]  # type: 'str'
+    try:
+        URLparts = urlparse(URL)
+        query_list = parse_qs(URLparts.query)
+        article_type = query_list["sid"][0]  # type: 'str'
 
-    res = requests.get(URL)
-    soup = BeautifulSoup(res.text, features="html.parser")
+        res = requests.get(URL)
+        soup = BeautifulSoup(res.text, features="html.parser")
 
-    print(f"Article type is {article_type}")
-    if (article_type == "106"):  # 연예
-        detail = soup.find(id="articeBody").text
-        print(f"Article: {detail}")
-    else:
-        detail = soup.find(id="dic_area").text
-        print(f"Article: {detail}")
+        print(f"Article type is {article_type}")
+        if (article_type == "106"):  # 연예
+            detail = soup.find(id="articeBody").text
+            print(f"Article: {detail}")
+        else:
+            detail = soup.find(id="dic_area").text
+            print(f"Article: {detail}")
 
-    return detail
+        return detail
+    except:
+        print(f'error found.'
+              f'query_list: {query_list}')
+        return ""
 
 
 def getArticleDetailBulk(URLs):
@@ -99,6 +104,20 @@ def getArticleDetailBulk(URLs):
         # time.sleep(1)
     return article_details
 
+def getArticleDetailBulkWithStr(user_keyword):
+    '''
+    :param user_keyword: search article keyword by user
+    :return: type: 'str', Articles
+    '''
+    search_result = searchArticle(user_keyword)
+    article_links = getOnlyNaverLinks(search_result)
+    article_list = getArticleDetailBulk(article_links)
+    article_string = ""
+    for i in range(0, len(article_list)):
+        article_string += f"\n{i + 1}번째 기사:"
+        article_string += article_list[i].strip('\n')
+        article_string += "\n"
+    return article_string
 
 if __name__ == "__main__":
     keyword = input()
