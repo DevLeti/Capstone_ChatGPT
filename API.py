@@ -55,8 +55,8 @@ app = FastAPI()
 
 
 @app.post("/search/")
-async def search(request: Annotated[str, Form()]):
-    user_keyword = searchArticleByUserKeyword(request)
+async def search(data: Annotated[str, Form()]):
+    user_keyword = searchArticleByUserKeyword(data)
     article_string = getArticle.getArticleDetailBulkWithStr(user_keyword)
     result = chain.invoke({"articles": article_string[0:3500], "question_keyword": user_keyword})
     return {"result": result.content}
