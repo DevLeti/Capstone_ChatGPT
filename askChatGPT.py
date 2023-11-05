@@ -29,7 +29,6 @@ llm = OpenAI(openai_api_key=os.environ["OPENAI_API_KEY"])
 # ChatModels: this is a language model which takes a list of messages as input and returns a message
 chat_model = ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"])
 
-# TODO: Template 작성
 template = "당신은 주어진 articles를 기반으로 question을 답해야 합니다.\
             답할 수 있는 경우 답과 함께 근거 article를 붙여 서술하고,\
             알 수 없는 경우 '모르겠습니다.'라고 답변하세요."
