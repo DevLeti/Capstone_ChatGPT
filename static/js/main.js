@@ -62,6 +62,33 @@ function requestChat(messageText, url_pattern) {
   var formData = new FormData();
   formData.append('data', messageText);
   $.ajax({
+    url: "http://127.0.0.1:8000/keyword/",
+    type: "POST",
+    // dataType: "json",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (data) {
+      //   state = data["state"];
+      console.log(data);
+      // JSON.stringify( ),
+      sendMessage("추출된 키워드: " + data["result"], "left");
+      sendMessage("추출된 키워드를 기반으로 검색중입니다.", "left");
+      return askChatGPT(data["result"],"request_chat");
+    },
+
+    error: function (request, status, error) {
+      console.log(error);
+
+      return sendMessage("죄송합니다. 서버 연결에 실패했습니다.", "left");
+    },
+  });
+}
+
+function askChatGPT(messageText, url_pattern) {
+  var formData = new FormData();
+  formData.append('data', messageText);
+  $.ajax({
     url: "http://127.0.0.1:8000/search/",
     type: "POST",
     // dataType: "json",
@@ -71,14 +98,8 @@ function requestChat(messageText, url_pattern) {
     success: function (data) {
       //   state = data["state"];
       console.log(data);
-      return sendMessage(JSON.stringify(data["result"]), "left");
-      // if (state === "SUCCESS") {
-      //   return sendMessage(data["result"], "left");
-      // } else if (state === "REQUIRE_LOCATION") {
-      //   return sendMessage("어느 지역을 알려드릴까요?", "left");
-      // } else {
-      //   return sendMessage("죄송합니다. 무슨말인지 잘 모르겠어요.", "left");
-      // }
+      // JSON.stringify( ),
+      return sendMessage(data["result"], "left");
     },
 
     error: function (request, status, error) {

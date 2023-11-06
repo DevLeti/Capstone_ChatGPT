@@ -16,7 +16,7 @@ def searchArticle(keyword):
     :return: type:'json', Naver article API response
     '''
     query = keyword  # keyword
-    display = 10  # number of result
+    display = 40  # number of result
     sort = "sim"  # sort method, sim: accurate, date: date
     URL = f"https://openapi.naver.com/v1/search/news.json?query={query}&display={display}&sort={sort}"
 
@@ -68,25 +68,33 @@ def getArticleDetail(URL):
     '''
     # sid, 100:정치, 101:경제, 102: 사회, 103:생활/문화, 104:세계, 105:IT/과학, 106: 예능
     # '106: 예능'의 경우 연예 페이지로 파싱을 다르게 해야함
+    # sports은 sid가 없으므로 다른 방식으로 크롤링 해야함
     # URL = "https://n.news.naver.com/mnews/article/003/0012106374?sid=106"
     try:
         URLparts = urlparse(URL)
-        query_list = parse_qs(URLparts.query)
-        article_type = query_list["sid"][0]  # type: 'str'
-
         res = requests.get(URL)
         soup = BeautifulSoup(res.text, features="html.parser")
-
-        print(f"Article type is {article_type}")
-        if (article_type == "106"):  # 연예
-            detail = soup.find(id="articeBody").text
+        if 'sports' in URLparts.netloc:
+            print(f"Article type is sports.")
+            detail = soup.find(id="newsEndContents").text
+            detail = detail.replace("\n\n", "\n")
             print(f"Article: {detail}")
         else:
-            detail = soup.find(id="dic_area").text
-            print(f"Article: {detail}")
+            query_list = parse_qs(URLparts.query)
+            article_type = query_list["sid"][0]  # type: 'str'
+            print(f"Article type is {article_type}")
+            if (article_type == "106"):  # 연예
+                detail = soup.find(id="articeBody").text
+                detail = detail.replace("\n\n", "\n")
+                print(f"Article: {detail}")
+            else:
+                detail = soup.find(id="dic_area").text
+                detail = detail.replace("\n\n", "\n")
+                print(f"Article: {detail}")
 
         return detail
     except:
+        print(URLparts)
         print(f'error found.'
               f'query_list: {query_list}')
         return ""

@@ -44,6 +44,7 @@ chain = chat_prompt | chat_model
 
 if __name__ == "__main__":
     user_keyword = searchArticleByUserKeyword(input())
+    user_keyword = user_keyword.replace(",", "")
     article_string = getArticle.getArticleDetailBulkWithStr(user_keyword)
     result = chain.invoke({"articles":article_string[0:3500],"question_keyword":user_keyword})
     print(result.content)
