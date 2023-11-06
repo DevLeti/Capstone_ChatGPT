@@ -4,7 +4,6 @@ from fastapi import FastAPI, Form
 
 import dotenv
 import os
-from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import ChatPromptTemplate
 from langchain.prompts import PromptTemplate
@@ -26,9 +25,6 @@ def generateKeyword(user_keyword):
     print(keyword)
     return keyword
 
-# LLMs: this is a language model which takes a string as input and returns a string
-# llm = OpenAI(openai_api_key=os.environ["OPENAI_API_CD"])
-# ChatModels: this is a language model which takes a list of messages as input and returns a message
 chat_model = ChatOpenAI(model_name='gpt-3.5-turbo-16k', openai_api_key=os.environ["OPENAI_API_KEY"])
 
 template = ("당신은 주어진 articles를 기반으로 question을 답해야 합니다.\
@@ -47,13 +43,6 @@ chat_prompt = ChatPromptTemplate.from_messages([
 ])
 
 chain = chat_prompt | chat_model
-
-# user_keyword = searchArticleByUserKeyword(input())
-# article_string = getArticle.getArticleDetailBulkWithStr(user_keyword)
-# result = chain.invoke({"articles":article_string[0:3500],"question_keyword":user_keyword})
-# print(result.content)
-
-
 
 app = FastAPI()
 
