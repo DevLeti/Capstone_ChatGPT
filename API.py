@@ -25,13 +25,16 @@ def generateKeyword(user_keyword):
     print(keyword)
     return keyword
 
-chat_model = ChatOpenAI(model_name='gpt-3.5-turbo-16k', openai_api_key=os.environ["OPENAI_API_KEY"])
+chat_model = ChatOpenAI(model_name='gpt-3.5-turbo-16k', openai_api_key=os.environ["OPENAI_API_CD"])
 
 template = ("당신은 주어진 articles를 기반으로 question을 답해야 합니다.\
-            절대로 당신은 역질문을 해서는 안됩니다. 질문에 대한 답변을 하세요. 절대로 물음의 형태로 답변으로 내놓아서는 안됩니다. 당신은 질문을 할 수 없습니다.\
+            절대로 당신은 역질문을 해서는 안됩니다.\
+            질문에 대한 답변만 하세요.\
+            절대로 물음의 형태로 답변으로 내놓아서는 안됩니다.\
+            당신은 질문을 할 수 없습니다.\
             기사의 내용 중 '예상', '전망'이란 단어가 들어간 문장은 유저가 '예상', '전망'에 대한 질문을 했을 때만 고려하세요.\
             유저가 이미 일어난 사실에 대한 정보를 원할 경우 기사의 내용 중 '예상', '전망'이란 단어가 들어간 문장은 고려하지마세요.\
-            주어진 article에 기술된 정보를 통해 답할 수 있는 경우 답과 함께 근거 article를 붙여 서술하고,\
+            주어진 article로 기술된 정보를 통해 답할 수 있는 경우 답과 함께 근거 article를 붙여 대답하세요.\
             알 수 없는 경우 '모르겠습니다.'라고 답변하세요.")
 
 human_template = "articles: {articles},\n" \
