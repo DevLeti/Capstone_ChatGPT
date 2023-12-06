@@ -9,7 +9,7 @@
 ## References
 - Chat UI - [Chat (by Pavel Komiagin)](https://bootsnipp.com/snippets/ZlkBn)
 
-## member
+## Member
 - MyeongHyun Lew - [Github Link](https://github.com/DevLeti)
 - HyunKyung Baik - [Github Link](https://github.com/hyunkkkk) 
 
