@@ -36,19 +36,26 @@ for row in range(11,21):
 """
 1-2. 막대그래프로 표현
 """
+# 한글 지원
+plt.rcParams['font.family'] = 'AppleGothic'
+plt.rcParams['axes.unicode_minus'] = False
+
 x = [1,2,3,4,5,6,7,8,9,10]
 
 # 1. "한국인 나트륨 일일 평균 섭취량을 알려줘.
-plt.subplot(2,2,1)
+plt.subplot(1,2,1)
+plt.title("한국인 나트륨 일일 평균 섭취량")
 plt.bar(x, score1_bleu_arr)
-plt.ylim([0,1])
+plt.yticks(np.arange(0,1.1,0.1))
 
 # 2. "전청조의 사기 액수를 알려줘."
-plt.subplot(2,2,2)
+plt.subplot(1,2,2)
+plt.title("전청조의 사기 액수")
 plt.bar(x, score2_bleu_arr)
 plt.ylim([0,1])
 
-# plt.show()
+plt.suptitle("Bleu Score")
+plt.show()
 
 """
 2-1. TF-IDF + Cosine Similarity
@@ -92,13 +99,16 @@ for row in range(11,21):
 x = [1,2,3,4,5,6,7,8,9,10]
 
 # 1. "한국인 나트륨 일일 평균 섭취량을 알려줘.
-plt.subplot(2,2,3)
+plt.subplot(1,2,1)
+plt.title("한국인 나트륨 일일 평균 섭취량")
 plt.bar(x, score1_cs_arr)
-plt.ylim([0,1])
+plt.yticks(np.arange(0,1.1,0.1))
 
 # 2. "전청조의 사기 액수를 알려줘."
-plt.subplot(2,2,4)
+plt.subplot(1,2,2)
+plt.title("전청조의 사기 액수")
 plt.bar(x, score2_cs_arr)
-plt.ylim([0,1])
+plt.yticks(np.arange(0,1.1,0.1))
 
+plt.suptitle("TF-IDF + Cosine Similarity")
 plt.show()
