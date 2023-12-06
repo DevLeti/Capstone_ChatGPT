@@ -52,7 +52,7 @@ plt.yticks(np.arange(0,1.1,0.1))
 plt.subplot(1,2,2)
 plt.title("전청조의 사기 액수")
 plt.bar(x, score2_bleu_arr)
-plt.ylim([0,1])
+plt.yticks(np.arange(0,1.1,0.1))
 
 plt.suptitle("Bleu Score")
 plt.show()
