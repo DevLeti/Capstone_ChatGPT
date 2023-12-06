@@ -95,8 +95,9 @@ def getArticleDetail(URL):
         return detail
     except:
         print(URLparts)
-        print(f'error found.'
-              f'query_list: {query_list}')
+        print(f'error found.')
+        if(query_list is not None):
+            print(f'query_list: {query_list}')
         return ""
 
 
