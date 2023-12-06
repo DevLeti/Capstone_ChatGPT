@@ -1,6 +1,9 @@
 // variables
 let userName = "test";
 let state = "SUCCESS";
+var start;
+var keyword_finish;
+var finish;
 
 // functions
 function Message(arg) {
@@ -61,6 +64,7 @@ function onClickAsEnter(e) {
 function requestChat(messageText, url_pattern) {
   var formData = new FormData();
   formData.append('data', messageText);
+  start = new Date();
   $.ajax({
     url: "http://127.0.0.1:8000/keyword/",
     type: "POST",
@@ -71,6 +75,8 @@ function requestChat(messageText, url_pattern) {
     success: function (data) {
       //   state = data["state"];
       console.log(data);
+      keyword_finish = new Date();
+      console.log('keyword_time: ' + (keyword_finish - start)/1000);
       // JSON.stringify( ),
       sendMessage("추출된 키워드: " + data["result"], "left");
       sendMessage("추출된 키워드를 기반으로 검색중입니다.", "left");
@@ -99,6 +105,9 @@ function askChatGPT(messageText, url_pattern) {
       //   state = data["state"];
       console.log(data);
       // JSON.stringify( ),
+      finish = new Date;
+      console.log('keyword ~ search: ' + (finish - keyword_finish) / 1000);
+      console.log('total: ' + (finish - start) / 1000);
       return sendMessage(data["result"], "left");
     },
 
